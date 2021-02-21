@@ -566,9 +566,10 @@ export default {
                 });
               }
 
-              localStorage.setItem("streams", JSON.stringify(streams));
+              //localStorage.setItem("streams", JSON.stringify(streams));
               _this.$store.state.isLoading = false;
               _this.callView = true;
+              _this.saveData(streams);
               _this.getStreamData();
               setInterval(async () => {
                 await _this.checkReceipientBalance();
@@ -604,7 +605,7 @@ export default {
           this.$store.state.privateKey,
           this.$store.state.appSecret,
           data,
-          this.$store.state.revision
+          BigInt(this.$store.state.revision)
         )
         .then((results) => {
           console.log("results of saving user data: ", results);
@@ -666,7 +667,7 @@ export default {
       );
       var done = false;
       var count = 0;
-           if (streams.data === null) {
+      if (streams.data === null) {
         this.$store.state.isLoading = false;
         streams = {
           data: {
@@ -678,11 +679,23 @@ export default {
       streams.map(async (stream) => {
         if (stream.address === this.$store.state.userAddress) {
           _this.$store.state.myStreams = stream.streams;
-        }
-        if (stream.address === this.$store.state.reciepientAddress) {
-          _this.$store.state.receivedStreams = stream.streams;
-        }
-        if (count >= streams.streams.length) {
+          stream.streams.map((tempStream) => {
+            if (
+              tempStream.reciepientAddress.toLowerCase() ===
+              _this.$store.state.userAddress.toLowerCase()
+            ) {
+              _this.$store.state.receivedStreams.push(tempStream);
+            }
+          });
+        } else {
+          stream.streams.map((tempStream) => {
+            if (
+              tempStream.reciepientAddress.toLowerCase() ===
+              _this.$store.state.userAddress.toLowerCase()
+            ) {
+              _this.$store.state.receivedStreams.push(tempStream);
+            }
+          });
         }
         this.$store.state.streams.push(stream);
         return stream;
@@ -709,7 +722,7 @@ export default {
         balance = await Promise.resolve(
           _this.getBalance(
             userStream.streamId,
-            userStream.sendAddress,
+            userStream.reciepientAddress,
             userStream.decimals
           )
         );
@@ -723,14 +736,20 @@ export default {
     },
     getBalance: async function(streamId, address, decimals) {
       return new Promise(async (resolve) => {
-        var balance = await this.$store.state.sablier.methods
+        this.$store.state.sablier.methods
           .balanceOf(streamId, address)
-          .call({ gas: 5000000 });
-        console.log("getBalance: ", balance);
-        balance = new bigNumber(balance)
-          .dividedBy(new bigNumber(10).pow(decimals))
-          .toFixed(0);
-        resolve(balance);
+          .call({ gas: 5000000 })
+          .then((balance) => {
+            console.log("getBalance: ", balance);
+            balance = new bigNumber(balance)
+              .dividedBy(new bigNumber(10).pow(decimals))
+              .toFixed(0);
+            resolve(balance);
+          })
+          .catch((error) => {
+            console.log("error getting balance: ", error);
+            resolve(0);
+          });
       });
     },
   },

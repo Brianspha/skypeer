@@ -11,26 +11,28 @@ var loading = true;
 
 var userAddress = "";
 var appSecret =
-  "askdjlaksdj klajaAAAAaaaasdasddasdasdk12312dasdasdad1212ads la sjdl111kasj1dk11lasdjda1ja   asdh1012293 jkasldkja oduaj idjaslkdja lskdjlak sdj";
+  "askdjlaksdj klajaAAAAaaaasd111a11sddasdasdk12312d111asdasdad1212ads la sjdl111kasj1dk11lasdjda1ja   asdh1012293 jkasldkja oduaj idjaslkdja lskdjlak sdj";
 
 const { publicKey, privateKey } = genKeyPairFromSeed(appSecret);
 const client = new SkynetClient("https://siasky.net/");
 //localStorage.clear()
-localStorage.setItem('streams',JSON.stringify({"streams":[]}))
+localStorage.setItem("streams", JSON.stringify({ streams: [] }));
 /* eslint-disable no-new */
 const store = new Vuex.Store({
   state: {
-    streams:[],
-    snackbarText:"",
-    snackbar:false,
-    changedTab:false,
-    publicKey:publicKey,
-    appSecret:appSecret,
-    revision:1,
+    privateKey: privateKey,
+    streams: [],
+    snackbarText: "",
+    snackbar: false,
+    changedTab: false,
+    publicKey: publicKey,
+    appSecret: appSecret,
+    revision: 1,
     client: client,
     currentSessionStream: {},
     myStreams: [],
     receivedStreams: [],
+    receivedStreamsFromOthers:[],
     userAddress: userAddress,
     iERC20: [
       {
@@ -218,6 +220,10 @@ const store = new Vuex.Store({
       swal.fire("Success", message, "success");
     },
     error(context, message) {
+      console.log("shwoing error message: ", message);
+      swal.fire("Error!", message, "error");
+    },
+    successWithFooter(context, message) {
       console.log("shwoing error message: ", message);
       swal.fire("Error!", message, "error");
     },

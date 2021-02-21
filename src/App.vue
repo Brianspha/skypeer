@@ -3,7 +3,7 @@
 
   <v-app>
     <v-app-bar app>
-      <!-- -->
+      <v-toolbar-title>SkyPeer</v-toolbar-title>
     </v-app-bar>
     <!-- Sizes your content based upon application components -->
     <v-main>
@@ -13,6 +13,7 @@
           <v-tab :color="$store.state.primaryColor">Start Call</v-tab>
           <v-tab :color="$store.state.primaryColor">Join Call</v-tab>
           <v-tab :color="$store.state.primaryColor">My Profile</v-tab>
+
           <v-tab-item>
             <v-container fluid> <StartCall /></v-container>
           </v-tab-item>
@@ -31,9 +32,6 @@
     <v-snackbar timeout="2000" v-model="$store.state.snackbar" :vertical="true">
       {{ $store.state.snackBarText }}
     </v-snackbar>
-    <v-footer app>
-      <!-- -->
-    </v-footer>
   </v-app>
 </template>
 
@@ -44,6 +42,7 @@ import EmbarkJS from "../embarkArtifacts/embarkjs";
 import detectEthereumProvider from "@metamask/detect-provider";
 import bigNumber from "bignumber.js";
 import JoinCall from "./views/JoinCall.vue";
+import Profile from "./views/Profile.vue";
 
 export default {
   data() {
@@ -55,6 +54,7 @@ export default {
     profile,
     StartCall,
     JoinCall,
+    Profile,
   },
   watch: {
     active_tab: async function(val, t) {
@@ -68,6 +68,12 @@ export default {
         // From now on, this should always be true:
         // provider === window.ethereum
         EmbarkJS.enableEthereum();
+        ethereum.request({ method: "eth_requestAccounts" });
+        ethereum.on("accountsChanged", (accounts) => {
+          this.$store.state.userAddress = accounts[0];
+          window.location.reload();
+        });
+        ethereum.on("chainChanged", (_chainId) => window.location.reload());
         let _this = this;
         _this.$store.state.isLoading = true;
         ethereum.request({ method: "eth_accounts" }).then((accounts) => {
@@ -96,7 +102,7 @@ export default {
       );
       var done = false;
       var count = 0;
-           if (streams.data === null) {
+      if (streams.data === null) {
         this.$store.state.isLoading = false;
         streams = {
           data: {
@@ -108,11 +114,23 @@ export default {
       streams.map(async (stream) => {
         if (stream.address === this.$store.state.userAddress) {
           _this.$store.state.myStreams = stream.streams;
-        }
-        if (stream.address === this.$store.state.reciepientAddress) {
-          _this.$store.state.receivedStreams = stream.streams;
-        }
-        if (count >= streams.streams.length) {
+          stream.streams.map((tempStream) => {
+            if (
+              tempStream.reciepientAddress.toLowerCase() ===
+              _this.$store.state.userAddress.toLowerCase()
+            ) {
+              _this.$store.state.receivedStreams.push(tempStream);
+            }
+          });
+        } else {
+          stream.streams.map((tempStream) => {
+            if (
+              tempStream.reciepientAddress.toLowerCase() ===
+              _this.$store.state.userAddress.toLowerCase()
+            ) {
+              _this.$store.state.receivedStreams.push(tempStream);
+            }
+          });
         }
         this.$store.state.streams.push(stream);
         return stream;
@@ -139,7 +157,7 @@ export default {
         balance = await Promise.resolve(
           _this.getBalance(
             userStream.streamId,
-            userStream.sendAddress,
+            userStream.reciepientAddress,
             userStream.decimals
           )
         );
@@ -160,14 +178,20 @@ export default {
     },
     getBalance: async function(streamId, address, decimals) {
       return new Promise(async (resolve) => {
-        var balance = await this.$store.state.sablier.methods
+        this.$store.state.sablier.methods
           .balanceOf(streamId, address)
-          .call({ gas: 5000000 });
-        console.log("getBalance: ", balance);
-        balance = new bigNumber(balance)
-          .dividedBy(new bigNumber(10).pow(decimals))
-          .toFixed(0);
-        resolve(balance);
+          .call({ gas: 5000000 })
+          .then((balance) => {
+            console.log("getBalance: ", balance);
+            balance = new bigNumber(balance)
+              .dividedBy(new bigNumber(10).pow(decimals))
+              .toFixed(0);
+            resolve(balance);
+          })
+          .catch((error) => {
+            console.log("error getting balance: ", error);
+            resolve(0);
+          });
       });
     },
     saveData(data) {
@@ -176,7 +200,7 @@ export default {
           this.$store.state.privateKey,
           this.$store.state.appSecret,
           data,
-          this.$store.state.revision
+          BigInt(this.$store.state.revision)
         )
         .then((results) => {
           console.log("results of saving user data: ", results);

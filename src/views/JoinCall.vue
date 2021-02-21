@@ -157,16 +157,22 @@ export default {
         }
       });
     },
-    getBalance: async function(streamId, address, decimals) {
+     getBalance: async function(streamId, address, decimals) {
       return new Promise(async (resolve) => {
-        var balance = await this.$store.state.sablier.methods
+        this.$store.state.sablier.methods
           .balanceOf(streamId, address)
-          .call({ gas: 5000000 });
-        console.log("getBalance: ", balance);
-        balance = new bigNumber(balance)
-          .dividedBy(new bigNumber(10).pow(decimals))
-          .toFixed(0);
-        resolve(balance);
+          .call({ gas: 5000000 })
+          .then((balance) => {
+            console.log("getBalance: ", balance);
+            balance = new bigNumber(balance)
+              .dividedBy(new bigNumber(10).pow(decimals))
+              .toFixed(0);
+            resolve(balance);
+          })
+          .catch((error) => {
+            console.log("error getting balance: ", error);
+            resolve(0);
+          });
       });
     },
     connect: async function(remotePeerId) {
@@ -181,7 +187,7 @@ export default {
           _this.joinReciepientBalance = await Promise.resolve(
             _this.getBalance(
               stream.streamId,
-              stream.sendAddress,
+              stream.reciepientAddress,
               stream.decimals
             )
           );

@@ -3,35 +3,23 @@
     "contracts": {
       "0x9fcd72f304610f8b66735c37d9825e3cf1c9138be5c4b1ea80d9e3795eebc649": {
         "name": "ERC20",
-        "address": "0x98C3aCA4fA500C537f1072eb0C8CEd32E50fd445"
-      },
-      "0xf06581feef5ea320b764fe2677e5bb232f6e200009dc4e46dd7deaedbb43e987": {
-        "name": "CTokenManager",
-        "address": "0xf0cd4D7Eb5fD08C4962931395279F9b3606a98A7"
+        "address": "0xC10c8a41eb694ff1F9aAb9fb071833442007C5EF"
       },
       "0xf9cc9a0309ad11fb5f9d4f988591125156085e66a87ea90886e0daa53bc72e82": {
         "name": "ERC20xDAI",
-        "address": "0xB1A80aB6293fE97DE5C146EE72aCA488a205E07a"
+        "address": "0xb42A0C1bD5b8b9b209816BccAf53ff89fc43DDa4"
       },
       "0xafa1ccb3df174d56c20f550c777e1b0e24716445908262aa1283e6b27c3c64c4": {
         "name": "ERC20BNB",
-        "address": "0xab90352E55A1e515bb5d21649A2A65a1C8E82312"
+        "address": "0x5eb8193Eb5B5B4Ecead861CE0331EaD2eC334819"
       },
-      "0x77c54666fdc567d3274ebc8ff5e07a6bb69237361b16f53f426c4eeb2369364d": {
-        "name": "Sablier",
-        "address": "0x69E049f025AA0d4A053B9877B03e521441cF98F4"
-      },
-      "0x98c37ba3d91afce27758f77b1e8faf9dcf9edc0006325b132fabefaa7ad625d7": {
-        "name": "Sablier",
-        "address": "0x89a9b0E28fa0BEDdF98367FCA050A15109FE558b"
-      },
-      "0xbbd336cc894a129a0fb307b725ba08ebb645f1c560ee5b283a4ddeb2f82ad424": {
-        "name": "Sablier",
-        "address": "0x3aeECe4928D21d863EE3bCa488cdff04eA4AcCF3"
+      "0xf06581feef5ea320b764fe2677e5bb232f6e200009dc4e46dd7deaedbb43e987": {
+        "name": "CTokenManager",
+        "address": "0xaA94d658D11E93f7F0908D03D8125Da286b20A9a"
       },
       "0x487558dd06c2279d887fa9119ceae2310255bdc94dbde8e4b2de576eb9fab036": {
         "name": "Sablier",
-        "address": "0x600Ee62848294E872D51907221aE4dAFfe54edb2"
+        "address": "0xed737bC0032C49Bb657b5a38C35Fc4e7FDD5D9f8"
       }
     },
     "name": "development"

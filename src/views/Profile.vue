@@ -142,6 +142,10 @@ export default {
   },
   mounted() {
     // this.getStreamData();
+    console.log(
+      "this.$store.state.receivedStreams: ",
+      this.$store.state.receivedStreams
+    );
   },
   watch: {
     "$store.state.myStreams": async function(newVal, oldVal) {
