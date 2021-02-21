@@ -1,0 +1,39 @@
+{
+  "0x1b1c6e8400c82089254d793c00b878694cf15c3af0cfd3d0cc868f57aa29a798": {
+    "contracts": {
+      "0x9fcd72f304610f8b66735c37d9825e3cf1c9138be5c4b1ea80d9e3795eebc649": {
+        "name": "ERC20",
+        "address": "0x98C3aCA4fA500C537f1072eb0C8CEd32E50fd445"
+      },
+      "0xf06581feef5ea320b764fe2677e5bb232f6e200009dc4e46dd7deaedbb43e987": {
+        "name": "CTokenManager",
+        "address": "0xf0cd4D7Eb5fD08C4962931395279F9b3606a98A7"
+      },
+      "0xf9cc9a0309ad11fb5f9d4f988591125156085e66a87ea90886e0daa53bc72e82": {
+        "name": "ERC20xDAI",
+        "address": "0xB1A80aB6293fE97DE5C146EE72aCA488a205E07a"
+      },
+      "0xafa1ccb3df174d56c20f550c777e1b0e24716445908262aa1283e6b27c3c64c4": {
+        "name": "ERC20BNB",
+        "address": "0xab90352E55A1e515bb5d21649A2A65a1C8E82312"
+      },
+      "0x77c54666fdc567d3274ebc8ff5e07a6bb69237361b16f53f426c4eeb2369364d": {
+        "name": "Sablier",
+        "address": "0x69E049f025AA0d4A053B9877B03e521441cF98F4"
+      },
+      "0x98c37ba3d91afce27758f77b1e8faf9dcf9edc0006325b132fabefaa7ad625d7": {
+        "name": "Sablier",
+        "address": "0x89a9b0E28fa0BEDdF98367FCA050A15109FE558b"
+      },
+      "0xbbd336cc894a129a0fb307b725ba08ebb645f1c560ee5b283a4ddeb2f82ad424": {
+        "name": "Sablier",
+        "address": "0x3aeECe4928D21d863EE3bCa488cdff04eA4AcCF3"
+      },
+      "0x487558dd06c2279d887fa9119ceae2310255bdc94dbde8e4b2de576eb9fab036": {
+        "name": "Sablier",
+        "address": "0x600Ee62848294E872D51907221aE4dAFfe54edb2"
+      }
+    },
+    "name": "development"
+  }
+}
