@@ -446,7 +446,7 @@ export default {
       var times = this.time.split(":");
       if (times.length === 2) {
         var tempStartTime = new bigNumber(
-          new Date(new Date().setMinutes(new Date().getMinutes() + 3)).getTime()
+          new Date(new Date().setMinutes(new Date().getMinutes() + 30)).getTime()
         ).dividedBy(1000);
         tempStartTime = tempStartTime.decimalPlaces(0).toFixed();
         var currentDate = new Date();
