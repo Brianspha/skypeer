@@ -38,7 +38,10 @@ CTokenManager-0xd59D6bFd765A94dfb8d3C3151d3a0Bab30f50D9F
 ![alt text](https://siasky.net/nAH8rbU53SVTsKHLp4BGcfWgQtdSzVKfaf3BKZZckigbAw)
 <a href="https://siasky.net/CAA0WE1H473oyR38C0bDTOfyuBzI-9gjB_wNKVQbW2x-cw" rel="some text">![Demo Video](https://siasky.net/nAH8rbU53SVTsKHLp4BGcfWgQtdSzVKfaf3BKZZckigbAw)</a>
 
+### Deployed
 
+Skynet- https://siasky.net/AAA0yCZ1Hm9R4kIctdQ94NVwnRPyv1If6mQeM9ryA8nJ8A
+Github Pages - https://brianspha.github.io/skyPr/
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
