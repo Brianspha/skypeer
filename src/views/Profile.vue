@@ -156,8 +156,26 @@ export default {
     },
   },
   methods: {
-    cancelStream: async function(stream) {
-      console.log("cancelling stream: ", stream);
+    cancelStream(stream) {
+      this.$store.state.isLoading = true;
+      console.log("cancelling: ", stream);
+      let _this = this;
+      this.$store.state.sablier.methods
+        .cancelStream(stream.streamId)
+        .send({ gas: 6000000, from: this.$store.state.userAddress })
+        .then((receipt, error) => {
+          if (!error) {
+            _this.$store.dispatch("success", "Succesfully canceled stream");
+            _this.$store.state.isLoading = false;
+          }
+        })
+        .catch((error) => {
+          _this.$store.state.isLoading = false;
+          _this.$store.dispatch(
+            "error",
+            "Something went wrong whilst cancelling stream"
+          );
+        });
     },
     getSkyData: async function() {
       var test = await this.$store.state.client.db.getJSON(

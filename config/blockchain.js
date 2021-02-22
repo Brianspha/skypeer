@@ -16,8 +16,7 @@ module.exports = {
   },
   // default applies to all environments
   binance: {
-    rpcHost: "https://data-seed-prebsc-1-s1.binance.org",
-    rpcPort: "8545",
+  //  rpcHost: "https://data-seed-prebsc-2-s3.binance.org:8545/",
     endpoint: process.env.BINANCE_PROVIDER_URL,
     accounts: [
       {

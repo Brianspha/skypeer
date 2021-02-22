@@ -1,27 +1,27 @@
 {
-  "0x1b1c6e8400c82089254d793c00b878694cf15c3af0cfd3d0cc868f57aa29a798": {
+  "0x6d3c66c5357ec91d5c43af47e234a939b22557cbb552dc45bebbceeed90fbe34": {
     "contracts": {
-      "0x9fcd72f304610f8b66735c37d9825e3cf1c9138be5c4b1ea80d9e3795eebc649": {
-        "name": "ERC20",
-        "address": "0xC10c8a41eb694ff1F9aAb9fb071833442007C5EF"
-      },
       "0xf9cc9a0309ad11fb5f9d4f988591125156085e66a87ea90886e0daa53bc72e82": {
         "name": "ERC20xDAI",
-        "address": "0xb42A0C1bD5b8b9b209816BccAf53ff89fc43DDa4"
+        "address": "0xF7a27Ff01AF1B742381548D91725E16fFDe5791F"
       },
-      "0xafa1ccb3df174d56c20f550c777e1b0e24716445908262aa1283e6b27c3c64c4": {
-        "name": "ERC20BNB",
-        "address": "0x5eb8193Eb5B5B4Ecead861CE0331EaD2eC334819"
+      "0x9fcd72f304610f8b66735c37d9825e3cf1c9138be5c4b1ea80d9e3795eebc649": {
+        "name": "ERC20",
+        "address": "0x1f2a73c67265cff4eEfCeD84877f01e978c1936F"
       },
       "0xf06581feef5ea320b764fe2677e5bb232f6e200009dc4e46dd7deaedbb43e987": {
         "name": "CTokenManager",
-        "address": "0xaA94d658D11E93f7F0908D03D8125Da286b20A9a"
+        "address": "0xd59D6bFd765A94dfb8d3C3151d3a0Bab30f50D9F"
+      },
+      "0xafa1ccb3df174d56c20f550c777e1b0e24716445908262aa1283e6b27c3c64c4": {
+        "name": "ERC20BNB",
+        "address": "0x128d14f85a4ba0DFd252b6415D41976242b26232"
       },
       "0x487558dd06c2279d887fa9119ceae2310255bdc94dbde8e4b2de576eb9fab036": {
         "name": "Sablier",
-        "address": "0xed737bC0032C49Bb657b5a38C35Fc4e7FDD5D9f8"
+        "address": "0x07162c59C7BdE9F8cb6255527703698F78DF1455"
       }
     },
-    "name": "development"
+    "name": "binance"
   }
 }

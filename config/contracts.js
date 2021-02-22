@@ -55,34 +55,14 @@ module.exports = {
     gas: "6000000",
     strategy: "explicit",
     deploy: {
-      Amazeng: {
-        deps: ["ERC20", "Sablier"],
-        onDeploy: async ({ contracts, web3, logger }) => {
-          console.log("contracts: ", web3.eth.defaultAccount);
-          await contracts.Amazeng.methods
-            .init(
-              contracts.ERC20.options.address,
-              contracts.Sablier.options.address
-            )
-            .send({
-              gas: 800000,
-            });
-          await contracts.ERC20.methods
-            .approve(contracts.Amazeng.options.address, intialAmount)
-            .send({
-              gas: 800000,
-            });
-          await contracts.ERC20.methods
-            .transfer(contracts.Amazeng.options.address, intialAmount)
-            .send({
-              gas: 800000,
-            });
-
-          console.log("approved Amazeng contract...");
-        },
-      },
       ERC20: {
-        args: ["AmazengToken", "AT", 18, intialAmount],
+        args: ["DAI", "DAI", 18, intialAmount],
+      },
+      ERC20xDAI: {
+        args: ["xDAI", "xDAI", 18, intialAmount],
+      },
+      ERC20BNB: {
+        args: ["BNB", "BNB", 18, intialAmount],
       },
       CTokenManager: {
         args: [],

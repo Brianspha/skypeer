@@ -7,5 +7,5 @@
   "dappAutoEnable": true,
   "warnIfMetamask": false,
   "blockchainClient": "geth",
-  "networkId": 5777
+  "networkId": 97
 }

@@ -310,7 +310,25 @@ export default {
   },
   methods: {
     cancelStream() {
+      this.$store.state.isLoading = true;
       console.log("cancelling: ", this.$store.state.currentSessionStream);
+      let _this = this;
+      this.$store.state.sablier.methods
+        .cancelStream(this.$store.state.currentSessionStream.streamId)
+        .send({ gas: 6000000, from: this.$store.state.userAddress })
+        .then((receipt, error) => {
+          if (!error) {
+            _this.$store.dispatch("success", "Succesfully canceled stream");
+            _this.$store.state.isLoading = false;
+          }
+        })
+        .catch((error) => {
+          _this.$store.state.isLoading = false;
+          _this.$store.dispatch(
+            "error",
+            "Something went wrong whilst cancelling stream"
+          );
+        });
     },
     connect() {
       let _this = this;
@@ -565,7 +583,11 @@ export default {
                   ],
                 });
               }
-
+              _this.$store.dispatch("successWithFooter", {
+                message:
+                  "Successfully scheduled streamed call please dont referesh streaming should start in 30 minutes",
+                txHash: receipt.transactionHash,
+              });
               //localStorage.setItem("streams", JSON.stringify(streams));
               _this.$store.state.isLoading = false;
               _this.callView = true;
@@ -727,7 +749,7 @@ export default {
           )
         );
         userStream.balance = balance;
-        console.log("senderBalance: ", userStream.balance);
+        console.log("receivedStreams: ", userStream.balance);
         //userStream = await Promise.resolve(userStream);
         console.log("userStream myStreams: ", userStream);
         _this.$store.state.receivedStreams[i] = userStream;
@@ -740,11 +762,12 @@ export default {
           .balanceOf(streamId, address)
           .call({ gas: 5000000 })
           .then((balance) => {
-            console.log("getBalance: ", balance);
-            balance = new bigNumber(balance)
-              .dividedBy(new bigNumber(10).pow(decimals))
+           
+            var tempBalance = new bigNumber(balance)
+              .dividedBy(new bigNumber(10).pow(decimals*2))
               .toFixed(0);
-            resolve(balance);
+            resolve(tempBalance);
+             console.log("getBalance: ", tempBalance);
           })
           .catch((error) => {
             console.log("error getting balance: ", error);

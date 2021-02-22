@@ -22,6 +22,12 @@
             </v-container>
             <v-card-actions>
               <v-spacer />
+              <v-btn
+                v-if="canShow"
+                :color="$store.state.primaryColor"
+                @click="connect"
+                >Cancel Stream</v-btn
+              >
               <v-btn :color="$store.state.primaryColor" @click="connect"
                 >Join</v-btn
               >
@@ -42,6 +48,7 @@ import moment from "moment";
 export default {
   data() {
     return {
+      canShow: false,
       reciepientBalance: 0,
       reciepientAddress: "",
       minTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
@@ -157,17 +164,18 @@ export default {
         }
       });
     },
-     getBalance: async function(streamId, address, decimals) {
+    getBalance: async function(streamId, address, decimals) {
       return new Promise(async (resolve) => {
         this.$store.state.sablier.methods
           .balanceOf(streamId, address)
           .call({ gas: 5000000 })
           .then((balance) => {
-            console.log("getBalance: ", balance);
-            balance = new bigNumber(balance)
-              .dividedBy(new bigNumber(10).pow(decimals))
+           
+            var tempBalance = new bigNumber(balance)
+              .dividedBy(new bigNumber(10).pow(decimals*2))
               .toFixed(0);
-            resolve(balance);
+            resolve(tempBalance);
+             console.log("getBalance: ", tempBalance);
           })
           .catch((error) => {
             console.log("error getting balance: ", error);
@@ -191,6 +199,14 @@ export default {
               stream.decimals
             )
           );
+          if (
+            stream.sendAddress.toLowerCase() ===
+            _this.$store.state.userAddress.toLowerCase()
+          ) {
+            _this.canShow = true;
+          }
+          _this.symbol=stream.symbol
+          _this.$store.state.currentSessionStream = stream;
           _this.connection = _this.$peer.connect(_this.remotePeerId);
           _this.connection.on("open", () => {
             _this.connection.on("data", (newMessage) =>
@@ -249,6 +265,27 @@ export default {
           new bigNumber(10).pow(this.$store.state.currentSessionStream.decimals)
         )
         .toFixed(0);
+    },
+    cancelStream() {
+      this.$store.state.isLoading = true;
+      console.log("cancelling: ", this.$store.state.currentSessionStream);
+      let _this = this;
+      this.$store.state.sablier.methods
+        .cancelStream(this.$store.state.currentSessionStream.streamId)
+        .send({ gas: 6000000, from: this.$store.state.userAddress })
+        .then((receipt, error) => {
+          if (!error) {
+            _this.$store.dispatch("success", "Succesfully canceled stream");
+            _this.$store.state.isLoading = false;
+          }
+        })
+        .catch((error) => {
+          _this.$store.state.isLoading = false;
+          _this.$store.dispatch(
+            "error",
+            "Something went wrong whilst cancelling stream"
+          );
+        });
     },
   },
 };

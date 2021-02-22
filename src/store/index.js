@@ -6,12 +6,12 @@ import { SkynetClient, genKeyPairFromSeed } from "skynet-js";
 
 Vue.use(Vuex);
 const Web3EthContract = require("web3-eth-contract");
-Web3EthContract.setProvider("http://localhost:8546");
+Web3EthContract.setProvider("https://data-seed-prebsc-2-s3.binance.org:8545/");
 var loading = true;
 
 var userAddress = "";
 var appSecret =
-  "askdjlaksdj klajaAAAAaaaasd111a11sddasdasdk12312d111asdasdad1212ads la sjdl111kasj1dk11lasdjda1ja   asdh1012293 jkasldkja oduaj idjaslkdja lskdjlak sdj";
+  "askdjlaksdlasjdl111kasj1dk11lasdj111da1jaaasdadsdh1012293jkasldkjaoduaj idjaslkdja lskdjlak sdj";
 
 const { publicKey, privateKey } = genKeyPairFromSeed(appSecret);
 const client = new SkynetClient("https://siasky.net/");
@@ -32,7 +32,7 @@ const store = new Vuex.Store({
     currentSessionStream: {},
     myStreams: [],
     receivedStreams: [],
-    receivedStreamsFromOthers:[],
+    receivedStreamsFromOthers: [],
     userAddress: userAddress,
     iERC20: [
       {
@@ -224,8 +224,13 @@ const store = new Vuex.Store({
       swal.fire("Error!", message, "error");
     },
     successWithFooter(context, message) {
-      console.log("shwoing error message: ", message);
-      swal.fire("Error!", message, "error");
+      console.log("shwoing successWithFooter message: ", message);
+      swal.fire({
+        icon: "success",
+        title: "Success",
+        text: message.message,
+        footer: `<a href= https://testnet.bscscan.com/tx/${message.txHash}> View on Binance Explorer</a>`,
+      });
     },
   },
 });

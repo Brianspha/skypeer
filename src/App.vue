@@ -43,7 +43,7 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import bigNumber from "bignumber.js";
 import JoinCall from "./views/JoinCall.vue";
 import Profile from "./views/Profile.vue";
-
+import swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -135,17 +135,21 @@ export default {
         this.$store.state.streams.push(stream);
         return stream;
       });
+      _this.$store.state.receivedStreams = _this.$store.state.receivedStreams.filter(
+        (stream, index, self) =>
+          index === self.findIndex((t) => t.streamId === stream.streamId)
+      );
       for (var i = 0; i < _this.$store.state.myStreams.length; i++) {
         var userStream = _this.$store.state.myStreams[i];
         console.log("userStream: ", userStream);
-        var balance = await Promise.resolve(
+        var tempBalance = await Promise.resolve(
           _this.getBalance(
             userStream.streamId,
             userStream.sendAddress,
             userStream.decimals
           )
         );
-        userStream.balance = balance;
+        userStream.balance = tempBalance;
         console.log("senderBalance: ", userStream.balance);
         //userStream = await Promise.resolve(userStream);
         console.log("userStream myStreams: ", userStream);
@@ -154,7 +158,7 @@ export default {
       for (i = 0; i < _this.$store.state.receivedStreams.length; i++) {
         userStream = _this.$store.state.receivedStreams[i];
         console.log("userStream: ", userStream);
-        balance = await Promise.resolve(
+        var balance = await Promise.resolve(
           _this.getBalance(
             userStream.streamId,
             userStream.reciepientAddress,
@@ -162,7 +166,7 @@ export default {
           )
         );
         userStream.balance = balance;
-        console.log("senderBalance: ", userStream.balance);
+        console.log("receivedStreams: ", userStream.balance);
         //userStream = await Promise.resolve(userStream);
         console.log("userStream myStreams: ", userStream);
         _this.$store.state.receivedStreams[i] = userStream;
@@ -182,11 +186,11 @@ export default {
           .balanceOf(streamId, address)
           .call({ gas: 5000000 })
           .then((balance) => {
-            console.log("getBalance: ", balance);
-            balance = new bigNumber(balance)
-              .dividedBy(new bigNumber(10).pow(decimals))
+            var tempBalance = new bigNumber(balance)
+              .dividedBy(new bigNumber(10).pow(decimals * 2))
               .toFixed(0);
-            resolve(balance);
+            resolve(tempBalance);
+            console.log("getBalance: ", tempBalance);
           })
           .catch((error) => {
             console.log("error getting balance: ", error);
@@ -206,6 +210,18 @@ export default {
           console.log("results of saving user data: ", results);
         });
     },
+  },
+  mounted() {
+    swal.fire({
+      title: "Compatibility",
+      icon: "info",
+      html: `To use SkyPeer you will need to ensure that you have setup metamask accordingly as stipulated on the <a href="https://binancex.dev/blog.html?p=making-the-move-from-ethereum-to-bsc">Binance Website</a>
+        You will also need some test net eth for the Binance smartchain network is available here <a href="https://testnet.binance.org/faucet-smart">testnet faucet</a> 
+      </br><b>Ensure that you select the *Give me BNB option* </b>`,
+      showCloseButton: true,
+      showCancelButton: false,
+      focusConfirm: false,
+    });
   },
 };
 </script>
